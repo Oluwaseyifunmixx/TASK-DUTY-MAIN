@@ -7,6 +7,7 @@ import { getAllTasks, deleteTask } from "../services/api";
 import DeleteIcon from "../assets/fluent_delete-24-regular.svg"
 import EditIcon from "../assets/clarity_note-edit-line.svg"
 // import { Pencil, Trash2 } from "lucide-react";
+import toast from "react-hot-toast";
 
 const MyTask = () => {
     const navigate = useNavigate();
@@ -36,8 +37,18 @@ const MyTask = () => {
         try {
             await deleteTask(id)
             setTasks(tasks.filter(task => task._id !== id))
+            window.dispatchEvent(new Event("trashUpdated"))
+            toast("Task moved to trash", {
+                icon: "🗑️",
+                style: {
+                    borderRadius: "8px",
+                    background: "#333",
+                    color: "#fff"
+                }
+            })
         } catch (error) {
-            setError("Failed to delete")
+            setError("Failed to delete task")
+            toast.error("Failed to delete task")
         }
     }
 

@@ -33,9 +33,27 @@ export const updateTask = async(id: string, taskData: Partial<Task>): Promise<Ta
     return response.data.UpdatedTask
 }
 
-// Delete Task
+// Soft Delete Task
 export const deleteTask = async (id: string): Promise<void> =>{
     await API.delete(`/tasks/${id}`)
+}
+
+// Get Trashed Tasks
+export const getTrashedTasks = async (): Promise<Task[]> =>{
+   const response = await API.get("/tasks/trash" )
+      return response.data.tasks
+  
+}
+
+// Restore Task
+export const restoreTask = async(id: string): Promise<Task> =>{
+   const response = await API.put(`/tasks/restore/${id}`)
+   return response.data.task
+}
+
+// Permanent Delete Task
+export const permanentDeleteTask = async (id: string): Promise<void> =>{
+   await API.delete(`/tasks/permanent/${id}`)
 }
 
 //=======AUTH ENDPOINTS ===================
