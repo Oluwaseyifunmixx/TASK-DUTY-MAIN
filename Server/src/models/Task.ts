@@ -7,6 +7,7 @@ export interface ITask extends Document {
     update: "Urgent" | "Important" | "Work" | "Personal";
     completed: boolean;
     userId: mongoose.Types.ObjectId;
+    deletedAt: Date | null;
     createdAt: Date;
     updatedAt: Date
 }
@@ -43,7 +44,12 @@ const TaskSchema = new Schema<ITask>(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: [true, "User is required"],
-     }
+     },
+
+     deletedAt: {
+      type: Date,
+      default: null
+     },
     },
     {
         timestamps: true

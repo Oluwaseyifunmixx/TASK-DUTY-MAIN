@@ -3,13 +3,34 @@ import { Link, useNavigate } from "react-router-dom";
 import TaskDutyLogo from "../assets/Task Duty Logo.svg"
 import profilePicture from "../assets/Profile picture.svg";
 import { useAuth } from "../context/AuthContext";
-import { useState } from "react";
+import { Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { getTrashedTasks } from "../services/api";
+
 
 
 const Navbar = () => {
     const {user, logout} = useAuth()
     const navigate = useNavigate()
      const [hoveredLink, setHoveredLink] = useState<string | null>(null)
+     const [trashCount, setTrashCount] = useState<number>(0)
+
+     useEffect(() => {
+        const fetchTrashCount = async () => {
+            if(!user) return
+
+            try {
+                const tasks = await getTrashedTasks()
+                setTrashCount(tasks.length)
+            } catch (err) {
+                console.error("Failed to fetch trash count")
+            }
+        }
+        fetchTrashCount()
+
+        window.addEventListener("trashUpdated", fetchTrashCount)
+        return() => window.removeEventListener("trashUpdated", fetchTrashCount)
+     }, [user])
 
     const handleLogout = async () =>{
         await logout()
@@ -94,6 +115,40 @@ const Navbar = () => {
             textDecoration: "none"
         }}>
             All Tasks
+        </Link>
+
+        <Link to="/trash"
+        onMouseEnter={() => setHoveredLink("trash")}
+        onMouseLeave={() => setHoveredLink(null)}
+        style={{
+            position: "relative",
+        display: "flex",
+        alignItems: "center",
+        color: hoveredLink === "trash" ? "#974FD0" : "#292929",
+        textDecoration: "none",
+        transition: "color 0.2s",
+        }}
+        >
+            <Trash2 size={24}/>
+            {trashCount > 0 && (
+                <span style={{
+                    position: "absolute",
+                    top: "-8px",
+                    right: "-8px",
+                    backgroundColor: "#D00000",
+                    color: "#ffffff",
+                    borderRadius: "50%",
+                    width: "18px",
+                    height: "18px",
+                    fontSize: "11px",
+                    fontWeight: "600",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}>
+                {trashCount}
+                </span>
+            )}
         </Link>
 
         {/* User Name section */}

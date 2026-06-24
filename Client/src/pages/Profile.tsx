@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
 import arrowLogo from "../assets/Vector (1).svg"
 import { updateProfile } from "../services/api"
+import { Eye, EyeOff } from "lucide-react"
 
 const Profile = () => {
     const navigate = useNavigate()
@@ -25,6 +26,9 @@ const Profile = () => {
     const [successMessage, setSuccessMessage] = useState("")
     const [serverError, setServerError] = useState("")
     const [loading, setLoading] = useState(false)
+    const [showCurrentPassword, setShowCurrentPassword] = useState<boolean>(false)
+    const [showNewPassword, setShowNewPassword] = useState<boolean>(false)
+    const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false)
 
     // Password strength checker
     const getPasswordStrength = (password: string) => {
@@ -274,21 +278,29 @@ const Profile = () => {
                             }}>
                                 Current Password
                             </legend>
-                            <input
-                                type="password"
-                                name="currentPassword"
-                                value={formData.currentPassword}
-                                onChange={handleChange}
-                                placeholder="Enter current password"
-                                style={{
-                                    width: "100%",
-                                    border: "none",
-                                    outline: "none",
-                                    fontSize: "16px",
-                                    color: "#292929",
-                                    backgroundColor: "transparent",
-                                }}
-                            />
+                           <div style={{ display: "flex", alignItems: "center" }}>
+                               <input
+                                   type={showCurrentPassword ? "text" : "password"}
+                                   name="currentPassword"
+                                   value={formData.currentPassword}
+                                   onChange={handleChange}
+                                   placeholder="Enter current password"
+                                   style={{
+                                       flex: 1,
+                                       border: "none",
+                                       outline: "none",
+                                       fontSize: "16px",
+                                       color: "#292929",
+                                       backgroundColor: "transparent",
+                                   }}
+                               />
+                               <span
+                                   onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                                   style={{ cursor: "pointer", color: "#9C9C9C" }}
+                               >
+                                   {showCurrentPassword ? <Eye size={18} /> : <EyeOff size={18} />}
+                               </span>
+                           </div>
                         </fieldset>
                         {errors.currentPassword && (
                             <span style={{ fontSize: "13px", color: "#D00000" }}>{errors.currentPassword}</span>
@@ -310,21 +322,29 @@ const Profile = () => {
                             }}>
                                 New Password
                             </legend>
-                            <input
-                                type="password"
-                                name="newPassword"
-                                value={formData.newPassword}
-                                onChange={handleChange}
-                                placeholder="Enter new password"
-                                style={{
-                                    width: "100%",
-                                    border: "none",
-                                    outline: "none",
-                                    fontSize: "16px",
-                                    color: "#292929",
-                                    backgroundColor: "transparent",
-                                }}
-                            />
+                            <div style={{ display: "flex", alignItems: "center" }}>
+                               <input
+                                   type={showNewPassword ? "text" : "password"}
+                                   name="newPassword"
+                                   value={formData.newPassword}
+                                   onChange={handleChange}
+                                   placeholder="Enter your new password"
+                                   style={{
+                                       flex: 1,
+                                       border: "none",
+                                       outline: "none",
+                                       fontSize: "16px",
+                                       color: "#292929",
+                                       backgroundColor: "transparent",
+                                   }}
+                               />
+                               <span
+                                   onClick={() => setShowNewPassword(!showNewPassword)}
+                                   style={{ cursor: "pointer", color: "#9C9C9C" }}
+                               >
+                                   {showNewPassword ? <Eye size={18} /> : <EyeOff size={18} />}
+                               </span>
+                           </div>
                         </fieldset>
                         {errors.newPassword && (
                             <span style={{ fontSize: "13px", color: "#D00000" }}>{errors.newPassword}</span>
@@ -375,21 +395,30 @@ const Profile = () => {
                             }}>
                                 Confirm New Password
                             </legend>
-                            <input
-                                type="password"
-                                name="confirmPassword"
-                                value={formData.confirmPassword}
-                                onChange={handleChange}
-                                placeholder="Re-enter new password"
-                                style={{
-                                    width: "100%",
-                                    border: "none",
-                                    outline: "none",
-                                    fontSize: "16px",
-                                    color: "#292929",
-                                    backgroundColor: "transparent",
-                                }}
-                            />
+                            <div style={{
+                        display: "flex",
+                        alignItems: "center"
+                    }}>
+                        <input type={showConfirmPassword ? "text" : "password"}
+                   name="confirmPassword"
+                   value={formData.confirmPassword}
+                   onChange={handleChange}
+                   placeholder="Confirm your password"
+                   style={{
+                    flex: 1,
+                    border: "none",
+                    outline: "none",
+                    fontSize: "16px",
+                    color: "#292929",
+                    backgroundColor: "transparent"
+                   }}/>
+                   <span onClick={() => setShowConfirmPassword(!showConfirmPassword)} style={{
+                    cursor: "pointer",
+                    color: "#9C9C9C"
+                   }}>
+                   {showConfirmPassword ? <Eye size={18}/> : <EyeOff size={18}/>}
+                   </span>
+                    </div>
                         </fieldset>
                         {errors.confirmPassword && (
                             <span style={{ fontSize: "13px", color: "#D00000" }}>{errors.confirmPassword}</span>

@@ -10,12 +10,15 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import ProtectedRoute from './components/ProtectedRoute'
 import Profile from './pages/Profile'
+import Trash from './pages/Trash'
+import { Toaster } from 'react-hot-toast'
 
 
 function App() {
 
   return (
    <BrowserRouter>
+      <Toaster position="bottom-right"/>
       <Navbar/>
       <Routes>
   <Route path="/" element={<LandingPage />} />
@@ -39,6 +42,11 @@ function App() {
   <Route path="/profile" element={
   <ProtectedRoute>
    <Profile/>
+  </ProtectedRoute>
+} />
+<Route path="/trash" element={
+  <ProtectedRoute>
+   <Trash/>
   </ProtectedRoute>
 } />
 </Routes>

@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { RegisterUser } from "../services/api"
 import { useAuth } from "../context/AuthContext"
 import TaskDutyLogo from "../assets/Task Duty Logo.svg"
+import { EyeOff, Eye } from "lucide-react"
 
 
 const Register = () => {
@@ -31,6 +32,8 @@ const Register = () => {
 })
     const [serverError, setServerError] = useState("")
     const [loading, setIsLoading] = useState(false)
+    const [showPassword, setShowPassword] = useState<boolean>(false)
+   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false)
 
     const validate = () =>{
         const newError = {
@@ -291,28 +294,36 @@ const Register = () => {
                             }}>
                                 Password
                             </legend>
-                            <input
-                                type="password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleChange}
-                                placeholder="At least 8 characters"
-                                style={{
-                                    width: "100%",
-                                    border: "none",
-                                    outline: "none",
-                                    fontSize: "16px",
-                                    color: "#292929",
-                                    backgroundColor: "transparent",
-                                }}
-                            />
+                            <div style={{
+                        display: "flex",
+                        alignItems: "center"
+                    }}>
+                        <input type={showPassword ? "text" : "password"}
+                   name="password"
+                   value={formData.password}
+                   onChange={handleChange}
+                   placeholder="Enter your password"
+                   style={{
+                    flex: 1,
+                    border: "none",
+                    outline: "none",
+                    fontSize: "16px",
+                    color: "#292929",
+                    backgroundColor: "transparent"
+                   }}/>
+                   <span onClick={() => setShowPassword(!showPassword)} style={{
+                    cursor: "pointer",
+                    color: "#9C9C9C"
+                   }}>
+                   {showPassword ? <Eye size={18}/> : <EyeOff size={18}/>}
+                   </span>
+                    </div>
                         </fieldset>
                         {error.password && (
                             <span style={{ fontSize: "13px", color: "#D00000" }}>{error.password}</span>
                         )}
                     </div>
 
-                    {/* Confirm Password */}
                     {/* Confirm Password */}
                     <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
                         <fieldset style={{
@@ -328,21 +339,30 @@ const Register = () => {
                             }}>
                                 Confirm Password
                             </legend>
-                            <input
-                                type="password"
-                                name="confirmPassword"
-                                value={formData.confirmPassword}
-                                onChange={handleChange}
-                                placeholder="Re-enter your password"
-                                style={{
-                                    width: "100%",
-                                    border: "none",
-                                    outline: "none",
-                                    fontSize: "16px",
-                                    color: "#292929",
-                                    backgroundColor: "transparent",
-                                }}
-                            />
+                           <div style={{
+                        display: "flex",
+                        alignItems: "center"
+                    }}>
+                        <input type={showConfirmPassword ? "text" : "password"}
+                   name="confirmPassword"
+                   value={formData.confirmPassword}
+                   onChange={handleChange}
+                   placeholder="Confirm your password"
+                   style={{
+                    flex: 1,
+                    border: "none",
+                    outline: "none",
+                    fontSize: "16px",
+                    color: "#292929",
+                    backgroundColor: "transparent"
+                   }}/>
+                   <span onClick={() => setShowConfirmPassword(!showConfirmPassword)} style={{
+                    cursor: "pointer",
+                    color: "#9C9C9C"
+                   }}>
+                   {showConfirmPassword ? <Eye size={18}/> : <EyeOff size={18}/>}
+                   </span>
+                    </div>
                         </fieldset>
                         {error.confirmPassword && (
                             <span style={{ fontSize: "13px", color: "#D00000" }}>{error.confirmPassword}</span>

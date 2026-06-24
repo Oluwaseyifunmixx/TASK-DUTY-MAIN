@@ -4,5 +4,6 @@ export interface Task{
     description: string;
     dueDate: string;
     update:  "Urgent" | "Important" | "Work" | "Personal";
-    completed: boolean
+    completed: boolean;
+    deletedAt: string | null
 }
