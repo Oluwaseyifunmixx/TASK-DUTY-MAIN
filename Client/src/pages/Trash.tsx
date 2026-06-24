@@ -173,7 +173,7 @@ if (error) return(
                  borderRadius: "8px",
                 //  border: "0.5px solid #974FD0",
             }}>
-              ⚠️ Tasks will be permanently deleted after <strong>21 days</strong>
+              ⚠️ Tasks in trash will be permanently deleted after <strong>21 days</strong>
             </p>
         )}
 
