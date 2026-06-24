@@ -173,7 +173,7 @@ if (error) return(
                  borderRadius: "8px",
                 //  border: "0.5px solid #974FD0",
             }}>
-              ⚠️ Tasks in trash will be permanently deleted after <strong>21 days</strong>
+              ⚠️ Tasks will be permanently deleted after <strong>21 days</strong>
             </p>
         )}
 
@@ -188,11 +188,7 @@ if (error) return(
                 marginTop: "80px",
                 gap: "16px"
             }}>
-        <span style={{
-            fontSize: "40px"
-        }}>
-           🗑️
-        </span>
+        
         <p style={{
             fontSize: "30px",
             color: "black",
@@ -201,6 +197,11 @@ if (error) return(
         }}>
           Trash is Empty
         </p>
+        <span style={{
+            fontSize: "40px"
+        }}>
+           🗑️
+        </span>
             </div>
         ) :(
             <div style={{
@@ -283,7 +284,7 @@ if (error) return(
                 filter: hoverButton === `delete-${task._id}` ? "brightness(0) invert(1)" : "none"
               }}/>
 
-           Completely Delete
+           Delete Forever
             </button>
           </div>
                  </div>
@@ -295,7 +296,6 @@ if (error) return(
                  }}/>
 
                  {/* Title */}
-
                  <h3 style={{
                     fontSize: "35px",
                     fontWeight: "400",
@@ -315,27 +315,27 @@ if (error) return(
                    {task.description}
                  </p>
 
-                 {/* Deleted Date */}
+                 {/* Deleted Date. This shows the date the task was deleted*/}
                  <p style={{
                     fontSize: "13px",
                     color: "#D00000",
                     marginTop: "12px"
                  }}>
-           {new Date(task.deletedAt!).toLocaleDateString()}
+           Deleted on: {new Date(task.deletedAt!).toLocaleDateString()}
                  </p>
                     </div>
                 ))}
             </div>
        )}
 
-       {/* Back to top */}
+     {/* Back to top, only show when there are tasks */}
       {tasks.length > 0 && (
         <div style={{
             textAlign: "center",
             marginTop: "40px"
         }}>
             <span onClick={() => window.scrollTo({top: 0, behavior: "smooth"})} style={{
-                fontSize: "26px",
+                fontSize: "24px",
                 color: "#974FD0",
                 fontWeight: "400",
                 cursor: "pointer",
@@ -381,13 +381,14 @@ if (error) return(
                 color: "#292929",
                 margin: "16px 0 8px"
             }}>
-        {selectedTaskId ? "Completely Delete" : "Empty Trash"}
+        {selectedTaskId ? "Delete Forever" : "Empty Trash"}
             </h2>
             <p style={{
                 fontSize: "16px",
                 color: "#737171",
                 marginBottom: "24px"
             }}>
+                {/* if you're trying to deleted a task or all task */}
             {selectedTaskId
             ? "This task will be permanently deleted and cannot be recovered."
             : "All tasks in trash will be permanently deleted and cannot be recovered."
@@ -424,7 +425,7 @@ if (error) return(
                     fontWeight: "600",
                     cursor: "pointer"
                 }}>
-               {selectedTaskId ? "Completely Delete" : "Empty Trash"}
+               {selectedTaskId ? "Delete Forever" : "Empty Trash"}
                 </button>
 
             </div>
