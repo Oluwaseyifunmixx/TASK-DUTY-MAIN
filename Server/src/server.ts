@@ -2,7 +2,6 @@ import dns from 'dns';
 dns.setServers(['8.8.8.8', '8.8.4.4']);
 
 import express from 'express';
-import mongoose from 'mongoose';
 import cors from "cors";
 import  cookieParser from "cookie-parser";
 import dotenv from "dotenv";
@@ -16,9 +15,8 @@ const app = express()
 
 // Middleware
 app.use(cors({
-    origin: "http://localhost:5173",   
-    // this is critical for cookies to work accross all. Without credentials: true here, the browser will refuse to send/receive the cookie
-    credentials: true
+  origin: ["http://localhost:5173", "https://task-duty-main.vercel.app"],
+  credentials: true
 }))
 app.use(express.json())
 app.use(cookieParser())   // This just let express read req.cookies
