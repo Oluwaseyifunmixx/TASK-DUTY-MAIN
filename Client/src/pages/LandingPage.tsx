@@ -1,26 +1,43 @@
 // import React from 'react'
 import { useNavigate } from "react-router-dom";
 import TaskDutyGroup from "../assets/Task Duty Group.svg";
+import { useState, useEffect } from "react";
+
+const useWindowWidth = () => {
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  return width;
+};
 
 const LandingPage = () => {
     const navigate = useNavigate()
+    const width = useWindowWidth()
+    const isMobile = width < 768
+
   return (
     <div style={{
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "#ffffff",
-       height: "100vh",
-        overflow: "hidden"
+       height: isMobile ? "auto" : "100vh",
+       minHeight: isMobile ? "100vh" : undefined,
+        overflow: isMobile ? "visible" : "hidden"
     }}>
 
         <div style={{
             width: "100%",
             display: "flex",
-            padding: "0 80px",
+            flexDirection: isMobile ? "column" : "row",
+            padding: isMobile ? "40px 20px" : "0 80px",
             alignItems: "center",
             justifyContent: "space-between",
             maxWidth: "1200px",
+            gap: isMobile ? "32px" : "0",
         }}>
      
      <div style={{
@@ -28,11 +45,13 @@ const LandingPage = () => {
         flexDirection: "column",
         gap: "24px",
         lineHeight: "1.6",
-        maxWidth: "600px",
+        maxWidth: isMobile ? "100%" : "600px",
+        textAlign: isMobile ? "center" : "left",
+        alignItems: isMobile ? "center" : "flex-start",
      }}>
     
                 <h1 style={{
-                fontSize: "45px",
+                fontSize: isMobile ? "30px" : "45px",
                 fontWeight: "500",
                 color: "#292929",
                 lineHeight: "1.2",
@@ -43,7 +62,7 @@ const LandingPage = () => {
               <span style={{
                 color: "#974FD0",
                 fontWeight: "500",
-                fontSize: "45px",
+                fontSize: isMobile ? "30px" : "45px",
                 fontFamily: "Signika Negative",
                 fontStyle: "medium",
                 lineHeight: "100%",
@@ -52,21 +71,22 @@ const LandingPage = () => {
             </h1>
             
             <p style={{
-                fontSize: "24px",
-                width: "535px",
+                fontSize: isMobile ? "16px" : "24px",
+                width: isMobile ? "100%" : "535px",
                 fontWeight: "400",
                 color: "#737171",
                 fontFamily: "Signika Negative",
             }}>
-               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Non tellus, sapien, morbi ante nunc euismod ac felis ac. Massa et, at platea tempus duis non eget. Hendrerit tortor fermentum bibendum mi nisl semper porttitor. Nec accumsan.
+                Stay organized and never miss a deadline.
+                Create,track,and manage your tasks in one place, mark them complete,restore deleted ones from trash,and keep your workflow clean and simple.
             </p>
 
             <button onClick={() =>navigate("/tasks")} style={{
                 width: "fit-content",
-                padding: "6px 18px",
+                padding: isMobile ? "10px 24px" : "6px 18px",
                 backgroundColor:  "#974FD0",
                 color: "#FAF9FB",
-                fontSize: "24px",
+                fontSize: isMobile ? "18px" : "24px",
                 fontWeight: "500",
                 fontFamily: "Signika Negative",
                 border: "none",
@@ -82,7 +102,7 @@ const LandingPage = () => {
         <div>
             <img src={TaskDutyGroup} alt="Task duty hero" style={{
                 width: "100%",
-                maxWidth: "550px",
+                maxWidth: isMobile ? "320px" : "550px",
                 objectFit: "contain"
             }} />
         </div>

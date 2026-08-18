@@ -1,15 +1,27 @@
 // import React from 'react'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { LoginUser } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import TaskDutyLogo from "../assets/Task Duty Logo.svg"
 import { Eye, EyeOff } from "lucide-react";
 
+const useWindowWidth = () => {
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  return width;
+};
+
 const Login = () => {
 
     const navigate = useNavigate()
     const {setUser} = useAuth()
+    const width = useWindowWidth()
+    const isMobile = width < 768
     
 
     const [formData, setFormData] = useState({
@@ -76,27 +88,29 @@ const Login = () => {
   return (
     <div style={{
         display: "flex",
+        flexDirection: isMobile ? "column" : "row",
         width: "100%",
-        height: "calc(100vh - 70px)",
-        overflow: "hidden"
+        height: isMobile ? "auto" : "calc(100vh - 70px)",
+        minHeight: isMobile ? "calc(100vh - 70px)" : undefined,
+        overflow: isMobile ? "visible" : "hidden"
     }}> 
 
     <div style={{
-        flex: 1,
+        flex: isMobile ? "none" : 1,
         backgroundColor: "#2D0050",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        gap: "24px",
-        padding: "40px"
+        gap: isMobile ? "12px" : "24px",
+        padding: isMobile ? "32px 20px" : "40px"
     }}>
         <img src={TaskDutyLogo} alt="Task Duty Logo" style={{
-            height: "80px",
+            height: isMobile ? "50px" : "80px",
             objectFit: "contain"
         }}/>
         <h1 style={{
-            fontSize: "40px",
+            fontSize: isMobile ? "26px" : "40px",
             fontWeight: "600",
             color: "#ffffff",
             textAlign: "center",
@@ -105,7 +119,7 @@ const Login = () => {
           Welcome Back!
         </h1>
         <p style={{
-            fontSize: "18px",
+            fontSize: isMobile ? "15px" : "18px",
             color: "#C9A0DC",
             textAlign: "center",
             lineHeight: "1.6",
@@ -116,12 +130,12 @@ const Login = () => {
     </div>
 
     <div style={{
-        flex: 1,
+        flex: isMobile ? "none" : 1,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        padding: "40px",
+        padding: isMobile ? "32px 20px" : "40px",
         backgroundColor: "#ffffff"
     }}>
 
@@ -134,7 +148,7 @@ const Login = () => {
         }}>
             <div>
                 <h2 style={{
-                    fontSize: "32px",
+                    fontSize: isMobile ? "26px" : "32px",
                     fontWeight: "600",
                     color: "#292929",
                     marginBottom: "8px"

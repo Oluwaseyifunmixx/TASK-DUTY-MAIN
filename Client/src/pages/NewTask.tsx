@@ -1,12 +1,25 @@
 // import React from 'react'
 import { useNavigate } from "react-router-dom";
 import arrowLogo from "../assets/Vector (1).svg"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CreateTask } from "../services/api";
+
+const useWindowWidth = () => {
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  return width;
+};
 
 const NewTask = () => {
 
     const navigate = useNavigate()
+    const width = useWindowWidth()
+    const isMobile = width < 768
+
     const [formData, setFormData] = useState<{
         taskTitle: string,
         description: string,
@@ -89,7 +102,8 @@ const NewTask = () => {
                 description: formData.description,
                 dueDate: formData.dueDate,
                 update: formData.update,
-                completed: formData.completed
+                completed: formData.completed,
+                deletedAt: null
             })
             navigate("/tasks")
         } catch (error) {
@@ -107,7 +121,7 @@ const NewTask = () => {
     <div style={{
     width: "100%",
     maxWidth: "1200px",
-    padding: "40px 80px",
+    padding: isMobile ? "24px 20px" : "40px 80px",
     }}>
 
            
@@ -117,7 +131,7 @@ const NewTask = () => {
         display: "flex",
         alignItems: "center",
         gap: "16px",
-        marginBottom: "40px"
+        marginBottom: isMobile ? "24px" : "40px"
     }}>
         <img src={arrowLogo} alt="back"  onClick={() => navigate("/tasks")} style={{
             width: "32px",
@@ -127,7 +141,7 @@ const NewTask = () => {
         />
 
         <h1 style={{
-            fontSize: "50px",
+            fontSize: isMobile ? "28px" : "50px",
             fontWeight: "500",
             color: "#292929"
         }}>
@@ -319,7 +333,7 @@ const NewTask = () => {
 
         {/* Done button */}
         <div>
-            <button onClick={handleSubmit} style={{
+            <button onClick={() => handleSubmit()} style={{
                 width: "100%",
                 padding: "10px",
                 backgroundColor: "#974FD0",
@@ -341,10 +355,10 @@ const NewTask = () => {
 
     <div style={{
         textAlign: "center",
-        marginTop: "40px"
+        marginTop: isMobile ? "24px" : "40px"
     }}>
         <span onClick={()=> window.scrollTo({top: 0, behavior: "smooth"})} style={{
-            fontSize: "26px",
+            fontSize: isMobile ? "18px" : "26px",
             color: "#974FD0",
             fontWeight: "400",
             fontFamily: "Signika Negative",

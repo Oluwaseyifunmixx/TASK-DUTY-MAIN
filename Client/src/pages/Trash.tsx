@@ -6,6 +6,16 @@ import arrowLogo from "../assets/Vector (1).svg"
 import DeleteIcon from "../assets/fluent_delete-24-regular.svg"
 import { ClipLoader } from "react-spinners"
 
+const useWindowWidth = () => {
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  return width;
+};
+
 const Trash = () => {
 
     const navigate = useNavigate()
@@ -15,6 +25,8 @@ const Trash = () => {
     const [hoverButton, setHoverButton] = useState<string | null>(null)
     const [showModal, setShowModal] = useState<boolean>(false)
     const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null)
+    const width = useWindowWidth()
+    const isMobile = width < 768
 
 useEffect(() =>{
     const fetchTrashedTasks = async ()=>{
@@ -108,14 +120,16 @@ if (error) return(
         <div style={{
             width: "100%",
             maxWidth: "1200px",
-            padding: "40px 80px"
+            padding: isMobile ? "24px 20px" : "40px 80px"
         }}>
     
     {/* Header */}
        <div style={{
         display: "flex",
-        alignItems: "center",
+        flexDirection: isMobile ? "column" : "row",
+        alignItems: isMobile ? "flex-start" : "center",
         justifyContent: "space-between",
+        gap: isMobile ? "12px" : "0",
         marginBottom: "32px"
        }}>
         <div style={{
@@ -129,7 +143,7 @@ if (error) return(
           cursor: "pointer"
         }}/>
         <h1 style={{
-            fontSize: "40px",
+            fontSize: isMobile ? "28px" : "40px",
             fontWeight: "500",
             color: "#292929",
         }}>
@@ -155,6 +169,7 @@ if (error) return(
                 fontSize: "16px",
                 fontWeight: "500",
                 cursor: "pointer",
+                width: isMobile ? "100%" : "auto"
             }}>
                     Empty Trash
             </button>
@@ -166,7 +181,7 @@ if (error) return(
             <p style={{
                 fontSize: "14px",
                 color: "#737171",
-                maxWidth: "35%",
+                maxWidth: isMobile ? "100%" : "35%",
                  marginBottom: "24px",
                  padding: "10px 16px",
                  backgroundColor:  "#F3E8FF",
@@ -207,13 +222,13 @@ if (error) return(
             <div style={{
                 display: "flex",
                 flexDirection: "column",
-                gap: "40px"
+                gap: isMobile ? "24px" : "40px"
             }}>
                 {tasks.map( task => (
                     <div key={task._id} style={{
                         border:  "0.5px solid #B8B6B6",
                         borderRadius: "10px",
-                        padding: "20px 15px",
+                        padding: isMobile ? "16px 12px" : "20px 15px",
                         backgroundColor: "#ffffff",
                         opacity: 0.8,
                     }}>
@@ -221,8 +236,10 @@ if (error) return(
     {/* Top Row */}
                  <div style={{
                     display: "flex",
-                    alignItems: "center",
+                    flexDirection: isMobile ? "column" : "row",
+                    alignItems: isMobile ? "flex-start" : "center",
                     justifyContent: "space-between",
+                    gap: isMobile ? "12px" : "0",
                     marginBottom: "16px"
                  }}>
           <span style={{
@@ -297,7 +314,7 @@ if (error) return(
 
                  {/* Title */}
                  <h3 style={{
-                    fontSize: "35px",
+                    fontSize: isMobile ? "24px" : "35px",
                     fontWeight: "400",
                     color: "black",
                     marginBottom: "8px"
@@ -307,7 +324,7 @@ if (error) return(
 
                  {/* Description */}
                  <p style={{
-                    fontSize: "24px",
+                    fontSize: isMobile ? "16px" : "24px",
                     fontWeight: "400",
                     color: "#B8B6B6",
                     lineHeight: "1.5"
@@ -335,7 +352,7 @@ if (error) return(
             marginTop: "40px"
         }}>
             <span onClick={() => window.scrollTo({top: 0, behavior: "smooth"})} style={{
-                fontSize: "24px",
+                fontSize: isMobile ? "18px" : "24px",
                 color: "#974FD0",
                 fontWeight: "400",
                 cursor: "pointer",
@@ -365,7 +382,7 @@ if (error) return(
                 <div style={{
                     backgroundColor: "#ffffff",
                     borderRadius: "12px",
-                    padding: "40px",
+                    padding: isMobile ? "28px 24px" : "40px",
                     maxWidth: "400px",
                     width: "90%",
                     textAlign: "center"
@@ -397,6 +414,7 @@ if (error) return(
 
             <div style={{
                 display: "flex",
+                flexDirection: isMobile ? "column" : "row",
                 gap: "12px",
                 justifyContent: "center"
             }}>
