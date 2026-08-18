@@ -1,13 +1,25 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
 import arrowLogo from "../assets/Vector (1).svg"
 import { updateProfile } from "../services/api"
 import { Eye, EyeOff } from "lucide-react"
 
+const useWindowWidth = () => {
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  return width;
+};
+
 const Profile = () => {
     const navigate = useNavigate()
     const { user, setUser } = useAuth()
+    const width = useWindowWidth()
+    const isMobile = width < 768
 
     const [formData, setFormData] = useState({
         name: user?.name || "",
@@ -125,7 +137,7 @@ const Profile = () => {
             <div style={{
                 width: "100%",
                 maxWidth: "1200px",
-                padding: "40px 80px",
+                padding: isMobile ? "24px 20px" : "40px 80px",
             }}>
 
                 {/* Header */}
@@ -133,7 +145,7 @@ const Profile = () => {
                     display: "flex",
                     alignItems: "center",
                     gap: "16px",
-                    marginBottom: "40px",
+                    marginBottom: isMobile ? "24px" : "40px",
                 }}>
                     <img
                         src={arrowLogo}
@@ -142,7 +154,7 @@ const Profile = () => {
                         style={{ width: "32px", height: "32px", cursor: "pointer" }}
                     />
                     <h1 style={{
-                        fontSize: "50px",
+                        fontSize: isMobile ? "28px" : "50px",
                         fontWeight: "500",
                         color: "#292929",
                     }}>
@@ -153,24 +165,25 @@ const Profile = () => {
                 {/* my avatar profile + user info */}
                 <div style={{
                     display: "flex",
-                    alignItems: "center",
-                    gap: "24px",
-                    marginBottom: "40px",
-                    padding: "24px",
+                    flexDirection: isMobile ? "column" : "row",
+                    alignItems: isMobile ? "flex-start" : "center",
+                    gap: isMobile ? "16px" : "24px",
+                    marginBottom: isMobile ? "24px" : "40px",
+                    padding: isMobile ? "16px" : "24px",
                     border: "0.5px solid #B8B6B6",
                     borderRadius: "12px",
                 }}>
                     {/* Initials avatar */}
                     <div style={{
-                        width: "80px",
-                        height: "80px",
+                        width: isMobile ? "60px" : "80px",
+                        height: isMobile ? "60px" : "80px",
                         borderRadius: "50%",
                         backgroundColor: "#2D0050",
                         color: "#ffffff",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        fontSize: "28px",
+                        fontSize: isMobile ? "22px" : "28px",
                         fontWeight: "600",
                         flexShrink: 0,
                     }}>
@@ -179,7 +192,7 @@ const Profile = () => {
 
                     <div>
                         <h2 style={{
-                            fontSize: "28px",
+                            fontSize: isMobile ? "22px" : "28px",
                             fontWeight: "600",
                             color: "#292929",
                             marginBottom: "4px",

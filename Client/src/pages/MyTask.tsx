@@ -9,6 +9,16 @@ import EditIcon from "../assets/clarity_note-edit-line.svg"
 // import { Pencil, Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
 
+const useWindowWidth = () => {
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  return width;
+};
+
 const MyTask = () => {
     const navigate = useNavigate();
     const [tasks, setTasks]= useState<Task[]>([])
@@ -18,6 +28,9 @@ const MyTask = () => {
 
     const [filterUpdate, setFilterUpdate] = useState<string>("All")
    const [filterDone, setFilterDone] = useState<string>("All")
+
+    const width = useWindowWidth()
+    const isMobile = width < 768
 
     // Fetch all tasks
     useEffect(() =>{
@@ -112,27 +125,29 @@ const MyTask = () => {
         <div style={{
             width: "100%",
             maxWidth: "1200px",
-            padding: "40px 80px"
+            padding: isMobile ? "24px 20px" : "40px 80px"
         }}>
 
         {/* Header */}
 
         <div style={{
             display: "flex",
-            alignItems: "center",
+            flexDirection: isMobile ? "column" : "row",
+            alignItems: isMobile ? "flex-start" : "center",
             justifyContent: "space-between",
+            gap: isMobile ? "12px" : "0",
             marginBottom: "32px",
         }}>
 
             <h1 style={{
-                fontSize: "50px",
+                fontSize: isMobile ? "30px" : "50px",
                 fontWeight: "500",
                 color: "#292929"
             }}>
                 My Tasks
             </h1>
             <span onClick={() =>navigate("/tasks/new")} style={{
-                fontSize: "24px",
+                fontSize: isMobile ? "18px" : "24px",
                 fontWeight: "500",
                 color: "#974FD0",
                 cursor: "pointer"
@@ -145,9 +160,10 @@ const MyTask = () => {
 
       <div style={{
         display: "flex",
+        flexDirection: isMobile ? "column" : "row",
         gap: "16px",
         marginBottom: "32px",
-        alignItems: "center"
+        alignItems: isMobile ? "flex-start" : "center"
       }}>
 
         <span style={{
@@ -168,7 +184,8 @@ const MyTask = () => {
             color: "#292929",
             backgroundColor: "#ffffff",
             cursor: "pointer",
-            outline: "none"
+            outline: "none",
+            width: isMobile ? "100%" : "auto"
         }}>
      
      <option value="All">All Tags</option>
@@ -188,7 +205,8 @@ const MyTask = () => {
             color: "#292929",
             backgroundColor: "#ffffff",
             cursor: "pointer",
-            outline: "none"
+            outline: "none",
+            width: isMobile ? "100%" : "auto"
         }}>
      
      <option value="All">All Tags</option>
@@ -203,14 +221,14 @@ const MyTask = () => {
             display: "flex",
             flexDirection: "column",
             fontFamily: "Signika Negative",
-            fontSize: "24px",
+            fontSize: isMobile ? "18px" : "24px",
             fontWeight: "400",
-            gap: "40px"
+            gap: isMobile ? "24px" : "40px"
         }}>
 
             {filteredTask.length === 0 ?(
                 <p style={{
-                    fontSize: "24px",
+                    fontSize: isMobile ? "18px" : "24px",
                     color: "#737171",
                     textAlign: "center",
                     marginTop: "40px"
@@ -222,8 +240,8 @@ const MyTask = () => {
             <div key={task._id} style={{
                 border: "0.5px solid #B8B6B6",
                 borderRadius: "10px",
-                fontSize: "24px",
-                padding: "20px 15px",
+                fontSize: isMobile ? "18px" : "24px",
+                padding: isMobile ? "16px 12px" : "20px 15px",
                 backgroundColor: "#ffffff"
             }}>
 
@@ -231,8 +249,10 @@ const MyTask = () => {
 
                 <div style={{
                     display: "flex",
-                    alignItems: "center",
+                    flexDirection: isMobile ? "column" : "row",
+                    alignItems: isMobile ? "flex-start" : "center",
                     justifyContent: "space-between",
+                    gap: isMobile ? "12px" : "0",
                     marginBottom: "16px"
                 }}>
                     <span style={{
@@ -308,7 +328,7 @@ const MyTask = () => {
                 {/* Title */}
 
                 <h3 style={{
-                    fontSize: "35px",
+                    fontSize: isMobile ? "24px" : "35px",
                     fontWeight: "400",
                     color: "#292929",
                     fontFamily: "Signika Negative",
@@ -319,7 +339,7 @@ const MyTask = () => {
 
                 {/* Description */}
                 <p style={{
-                    fontSize: "24px",
+                    fontSize: isMobile ? "16px" : "24px",
                     fontWeight: "400",
                     color: "#737171",
                     lineHeight: "1.5"
@@ -339,7 +359,7 @@ const MyTask = () => {
             marginTop: "40px"
         }}>
             <span onClick={() => window.scrollTo({top: 0, behavior: "smooth"})} style={{
-                fontSize: "26px",
+                fontSize: isMobile ? "18px" : "26px",
                 color: "#974FD0",
                 fontWeight: "400",
                 fontFamily: "Signika Negative",

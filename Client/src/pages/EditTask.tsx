@@ -6,11 +6,24 @@ import arrowLogo from "../assets/Vector (1).svg";
 import { getASingleTask, updateTask } from "../services/api";
 import { useEffect } from "react";
 
+const useWindowWidth = () => {
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  return width;
+};
+
 
 const EditTask = () => {
 
     const navigate = useNavigate()
     const{id}= useParams()
+
+    const width = useWindowWidth()
+    const isMobile = width < 768
 
     // const existingTask = dummyData.find(task => task._id === id)
 
@@ -130,7 +143,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElemen
         <div style={{
                 width: "100%",
                 maxWidth: "1200px",
-                padding: "40px 80px",
+                padding: isMobile ? "24px 20px" : "40px 80px",
             }}>
 
         {/* Header */}
@@ -139,7 +152,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElemen
             display: "flex",
             alignItems: "center",
             gap: "16px",
-            marginBottom: "40px"
+            marginBottom: isMobile ? "24px" : "40px"
         }}>
 
             <img src={arrowLogo} alt="back" onClick={() => navigate("/tasks")} style={{
@@ -149,7 +162,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElemen
             }} />
 
             <h1 style={{
-                fontSize: "50px",
+                fontSize: isMobile ? "28px" : "50px",
                 fontWeight: "500",
                  color: "#292929",
             }}>
@@ -399,7 +412,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElemen
         
     }}>
         <span onClick={()=> window.scrollTo({top: 0, behavior: "smooth"})} style={{
-            fontSize: "26px",
+            fontSize: isMobile ? "18px" : "26px",
             color: "#974FD0",
             fontWeight: "400",
             fontFamily: "Signika Negative",
