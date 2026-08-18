@@ -1,8 +1,8 @@
 import axios from "axios";
 import type { Task } from "../types/task";
 
-const API =axios.create({
-   baseURL: "http://localhost:8090",
+const API = axios.create({
+   baseURL: import.meta.env.VITE_API_URL || "http://localhost:8090",
    withCredentials: true
 })
 
